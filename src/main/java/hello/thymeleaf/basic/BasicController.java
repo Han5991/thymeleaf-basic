@@ -19,19 +19,19 @@ import java.util.Map;
 public class BasicController {
 
     @GetMapping("text-basic")
-    public String textBasic(Model model){
+    public String textBasic(Model model) {
         model.addAttribute("data", "hi");
         return "basic/text-basic";
     }
 
     @GetMapping("text-unescaped")
-    public String textUnescaped(Model model){
+    public String textUnescaped(Model model) {
         model.addAttribute("data", "<b>hi</b>");
         return "basic/text-unescaped";
     }
 
     @GetMapping("/variable")
-    public String variable(Model model){
+    public String variable(Model model) {
         User userA = new User("userA", 10);
         User userB = new User("userB", 20);
         List<User> userList = new ArrayList<>();
@@ -55,7 +55,7 @@ public class BasicController {
     }
 
     @GetMapping("/date")
-    public String date(Model model){
+    public String date(Model model) {
         model.addAttribute("localDateTime", LocalDateTime.now());
         return "basic/date";
     }
@@ -90,6 +90,7 @@ public class BasicController {
         addUsers(model);
         return "basic/each";
     }
+
     private void addUsers(Model model) {
         List<User> list = new ArrayList<>();
         list.add(new User("userA", 10));
@@ -129,6 +130,7 @@ public class BasicController {
             return "Hello " + data;
         }
     }
+
     @Data
     static class User {
         private String username;
