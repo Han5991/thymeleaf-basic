@@ -5,10 +5,13 @@ import hello.thymeleaf.basic.itemservice.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/validation/v1/items")
@@ -38,7 +41,36 @@ public class ValidationItemControllerV1 {
     }
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
+    public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes, Model model) {
+
+        //@ModelAttribute == model.addAttribute("item", item) 이게 자동으로 들어감
+
+        //검증 오류 결과를 보관
+        Map<String, String> errors = new HashMap<>();
+
+        //검증 로직
+        if (!StringUtils.hasText(item.getItemName())) {
+            errors.put("itemName", "상품 이름은 필수 입니다.");
+        }
+        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
+            errors.put("price", "가격은 1,000원에서 1,000,000원까지 허용합니다.");
+        }
+        if (item.getQuantity() == null || item.getQuantity() >= 9999) {
+            errors.put("quantity", "수량은 최대 9,999까지 허용합니다.");
+        }
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            if (item.getQuantity() * item.getPrice() < 10000) {
+                errors.put("globalError", "10,000원 이상이어야 합니다.");
+            }
+        }
+
+        //검증에 실패하면 다시 입력 폼으로
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            return "validation/v1/addForm";
+        }
+
+        //성공 로직
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
