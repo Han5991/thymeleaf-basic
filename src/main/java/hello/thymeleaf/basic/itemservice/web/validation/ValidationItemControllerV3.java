@@ -113,5 +113,12 @@ public class ValidationItemControllerV3 {
         return "redirect:/validation/v3/items/{itemId}";
     }
 
+    @GetMapping ("{itemId}/delete")
+    public String edit(@PathVariable Long itemId, Model model){
+        itemRepository.delete(itemId);
+        model.addAttribute("items", itemRepository.findAll());
+        return "validation/v3/items";
+    }
+
 }
 

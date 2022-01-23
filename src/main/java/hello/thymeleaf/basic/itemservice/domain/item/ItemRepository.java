@@ -27,6 +27,10 @@ public class ItemRepository {
         return new ArrayList<>(store.values());
     }
 
+    public void delete(Long id){
+        store.remove(id);
+    }
+
     public void update(Long itemId, Item updateParam) {
         Item findItem = findById(itemId);
         findItem.setItemName(updateParam.getItemName());
