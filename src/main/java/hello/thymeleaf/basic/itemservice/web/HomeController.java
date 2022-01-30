@@ -2,6 +2,7 @@ package hello.thymeleaf.basic.itemservice.web;
 
 import hello.thymeleaf.basic.itemservice.domain.member.Member;
 import hello.thymeleaf.basic.itemservice.domain.member.MemberRepository;
+import hello.thymeleaf.basic.itemservice.web.argumentresolver.Login;
 import hello.thymeleaf.basic.itemservice.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,8 +79,20 @@ public class HomeController {
         return "items/loginHome";
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String loginHomeV3Spring(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member, Model model) {
+        //세션에 회원 데이터가 없으면 home
+        if (member == null) {
+            return "items/home";
+        }
+
+        //세션이 유지되면 로그인으로 이동
+        model.addAttribute("member", member);
+        return "items/loginHome";
+    }
+
+    @GetMapping("/")
+    public String loginHomeV3ArgumentResolver(@Login Member member, Model model) {
         //세션에 회원 데이터가 없으면 home
         if (member == null) {
             return "items/home";
