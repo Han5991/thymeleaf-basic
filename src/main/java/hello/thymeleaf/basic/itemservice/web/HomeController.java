@@ -91,7 +91,7 @@ public class HomeController {
         return "items/loginHome";
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String loginHomeV3ArgumentResolver(@Login Member member, Model model) {
         //세션에 회원 데이터가 없으면 home
         if (member == null) {
