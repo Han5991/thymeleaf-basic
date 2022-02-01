@@ -40,8 +40,7 @@ public class ErrorPageController {
     }
 
     @RequestMapping(value = "/error-page/500", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, Object>> errorPage500Api(
-            HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Map<String, Object>> errorPage500Api(HttpServletRequest request) {
 
         log.info("API errorPage 500");
 
