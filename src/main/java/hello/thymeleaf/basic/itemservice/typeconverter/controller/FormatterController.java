@@ -24,7 +24,7 @@ public class FormatterController {
     }
 
     @PostMapping("/formatter/edit")
-    public String formatterEdit(@ModelAttribute Form form){
+    public String formatterEdit(@ModelAttribute Form form) {
         return "converter/formatter-view";
     }
 
